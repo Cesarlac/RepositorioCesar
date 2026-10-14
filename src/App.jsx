@@ -39,7 +39,6 @@ export default function App() {
     e.preventDefault();
     setStatus({ type: '', msg: '' });
 
-    // Validações básicas (Lab01S02)
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setStatus({ type: 'error', msg: 'Por favor, preencha todos os campos.' });
       return;
@@ -85,30 +84,31 @@ export default function App() {
     }
   };
 
+  // Linha do tempo de projetos: do mais antigo (2025.2) ao mais recente (2026.2)
   const projects = [
     {
-      year: '2026.1',
-      name: 'Horizon Parking',
-      description: 'Sistema de gerenciamento de estacionamento com modelagem BPMN, banco de dados relacional normalizado (3FN) e aplicação em Java.',
-      techs: ['Java', 'SQL', 'HTML/CSS', 'BPMN', 'UML'],
-      github: 'https://github.com/Cesarlac',
-      image: 'https://placehold.co/600x350/1e293b/38bdf8?text=Horizon+Parking'
+      year: '2025.2 — TI 1',
+      name: 'Amparo.me (+ Saúde)',
+      description: 'Portal web de comunicação em saúde focado em acessibilidade, estruturação de dados em JSON e interfaces intuitivas para pacientes e profissionais.',
+      techs: ['HTML5', 'CSS3', 'JavaScript', 'JSON', 'Figma'],
+      github: 'https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2025-2-ti1-5567100-amparo-me',
+      image: '/amparo.png'
     },
     {
-      year: '2026.2',
-      name: 'Amparo.me (+ Saúde)',
-      description: 'Portal web de comunicação em saúde focado em acessibilidade, estruturação de dados em JSON e interfaces intuitivas.',
-      techs: ['HTML5', 'CSS3', 'JavaScript', 'JSON', 'Figma'],
-      github: 'https://github.com/Cesarlac',
-      image: 'https://placehold.co/600x350/1e293b/38bdf8?text=Amparo.me'
+      year: '2026.1 — TI 2',
+      name: 'Sistema de Gestão Financeira Automatizada (Projeto GBA)',
+      description: 'Sistema interdisciplinar de gestão e negociação de produtos financeiros com modelagem de processos BPMN, banco de dados relacional e aplicação back-end/front-end.',
+      techs: ['Java', 'SQL', 'BPMN', 'UML', 'HTML/CSS', 'JavaScript'],
+      github: 'https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2026-1-ti2-1381100-projeto-gba',
+      image: '/horizon.png'
     },
     {
       year: '2026.2',
       name: 'SecureLoginPUC',
       description: 'Aplicação web fullstack com cadastro de usuários, autenticação segura, recuperação de senha por e-mail e interface dinâmica.',
       techs: ['Java', 'Spring Boot', 'Spring Security', 'Thymeleaf', 'HTML/CSS'],
-      github: 'https://github.com/Cesarlac',
-      image: 'https://placehold.co/600x350/1e293b/38bdf8?text=SecureLoginPUC'
+      github: 'https://github.com/Cesarlac/SecureLoginPUC',
+      image: '/securelogin.png'
     }
   ];
 
@@ -117,13 +117,13 @@ export default function App() {
       institution: 'PUC Minas',
       role: 'Graduando em Engenharia de Software',
       period: '2025 - Atual',
-      description: 'Desenvolvimento de projetos práticos de arquitetura de software, aplicações web fullstack, modelagem de processos (BPMN) e bancos de dados.'
+      description: 'Desenvolvimento de projetos práticos de arquitetura de software, aplicações web fullstack com Java/Spring Boot e React, modelagem de processos (BPMN) e bancos de dados SQL.'
     },
     {
       institution: 'Projeto de Extensão Universitária',
       role: 'Autor — Projeto "Código da Rotina"',
       period: '2026',
-      description: 'Elaboração de oficinas de organização de estudos e repetição espaçada voltadas para estudantes da rede pública.'
+      description: 'Elaboração de oficinas de organização de estudos e repetição espaçada voltadas para estudantes da rede pública de ensino.'
     }
   ];
 
@@ -219,7 +219,7 @@ export default function App() {
                     <GithubIcon size={16} /> Ver Repositório no GitHub <ExternalLink size={14} />
                   </a>
                 </div>
-                <img src={proj.image} alt={proj.name} className="rounded-lg border border-slate-800 w-full object-cover" />
+                <img src={proj.image} alt={proj.name} className="rounded-lg border border-slate-800 w-full object-cover max-h-64" />
               </div>
             ))}
           </div>
@@ -253,11 +253,11 @@ export default function App() {
                 <a href="mailto:cesarlac.lima@gmail.com" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
                   <Mail size={20} className="text-sky-400" /> cesarlac.lima@gmail.com
                 </a>
-                <a href="https://wa.me/5531999999999" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
-                  <Phone size={20} className="text-sky-400" /> WhatsApp
+                <a href="https://wa.me/5531988538013" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
+                  <Phone size={20} className="text-sky-400" /> (31) 98853-8013 (WhatsApp)
                 </a>
-                <a href="https://linkedin.com/" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
-                  <span className="text-sky-400"><LinkedinIcon size={20} /></span> LinkedIn
+                <a href="https://www.linkedin.com/in/cesarlaclima" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
+                  <span className="text-sky-400"><LinkedinIcon size={20} /></span> linkedin.com/in/cesarlaclima
                 </a>
                 <a href="https://github.com/Cesarlac" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
                   <span className="text-sky-400"><GithubIcon size={20} /></span> github.com/Cesarlac
