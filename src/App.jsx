@@ -1,8 +1,27 @@
 import { useState } from 'react';
-import { Github, Linkedin, Mail, Phone, ExternalLink } from 'lucide-react';
+import { Mail, Phone, ExternalLink } from 'lucide-react';
+
+// Ícones SVG para GitHub e LinkedIn (evita erro de versão do lucide-react)
+function GithubIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+      <path d="M9 18c-4.51 2-5-2-7-2" />
+    </svg>
+  );
+}
+
+function LinkedinIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect width="4" height="12" x="2" y="9" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
 
 export default function App() {
-  // Estado para alternar idioma na seção Sobre Mim (Requisito S01/S02)
   const [lang, setLang] = useState('pt');
 
   const aboutText = {
@@ -16,31 +35,30 @@ export default function App() {
     }
   };
 
-  // Linha do tempo de projetos: do mais antigo ao mais recente
   const projects = [
     {
       year: '2026.1',
       name: 'Horizon Parking',
       description: 'Sistema de gerenciamento de estacionamento com modelagem BPMN, banco de dados relacional normalizado (3FN) e aplicação em Java.',
       techs: ['Java', 'SQL', 'HTML/CSS', 'BPMN', 'UML'],
-      github: 'https://github.com/seu-usuario/horizon-parking',
-      image: 'https://placehold.co/600x350/1e293b/38bdf8?text=Horizon+Parking+Preview'
+      github: 'https://github.com/Cesarlac',
+      image: 'https://placehold.co/600x350/1e293b/38bdf8?text=Horizon+Parking'
     },
     {
       year: '2026.2',
       name: 'Amparo.me (+ Saúde)',
       description: 'Portal web de comunicação em saúde focado em acessibilidade, estruturação de dados em JSON e interfaces intuitivas.',
       techs: ['HTML5', 'CSS3', 'JavaScript', 'JSON', 'Figma'],
-      github: 'https://github.com/seu-usuario/amparo-me',
-      image: 'https://placehold.co/600x350/1e293b/38bdf8?text=Amparo.me+Preview'
+      github: 'https://github.com/Cesarlac',
+      image: 'https://placehold.co/600x350/1e293b/38bdf8?text=Amparo.me'
     },
     {
       year: '2026.2',
       name: 'SecureLoginPUC',
       description: 'Aplicação web fullstack com cadastro de usuários, autenticação segura, recuperação de senha por e-mail e interface dinâmica.',
       techs: ['Java', 'Spring Boot', 'Spring Security', 'Thymeleaf', 'HTML/CSS'],
-      github: 'https://github.com/seu-usuario/secure-login-puc',
-      image: 'https://placehold.co/600x350/1e293b/38bdf8?text=SecureLoginPUC+Preview'
+      github: 'https://github.com/Cesarlac',
+      image: 'https://placehold.co/600x350/1e293b/38bdf8?text=SecureLoginPUC'
     }
   ];
 
@@ -127,7 +145,7 @@ export default function App() {
                     ))}
                   </div>
                   <a href={proj.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-sky-400 hover:underline">
-                    <Github size={16} /> Ver Repositório no GitHub <ExternalLink size={14} />
+                    <GithubIcon size={16} /> Ver Repositório no GitHub <ExternalLink size={14} />
                   </a>
                 </div>
                 <img src={proj.image} alt={proj.name} className="rounded-lg border border-slate-800 w-full object-cover" />
@@ -162,16 +180,16 @@ export default function App() {
               </p>
               <div className="space-y-4">
                 <a href="mailto:seuemail@dominio.com" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
-                  <Mail size={20} className="text-sky-400" /> seuemail@dominio.com
+                  <Mail size={20} className="text-sky-400" /> E-mail
                 </a>
                 <a href="https://wa.me/5531999999999" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
                   <Phone size={20} className="text-sky-400" /> WhatsApp
                 </a>
-                <a href="https://linkedin.com/in/seu-perfil" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
-                  <Linkedin size={20} className="text-sky-400" /> LinkedIn
+                <a href="https://linkedin.com/" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
+                  <span className="text-sky-400"><LinkedinIcon size={20} /></span> LinkedIn
                 </a>
-                <a href="https://github.com/seu-usuario" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
-                  <Github size={20} className="text-sky-400" /> GitHub
+                <a href="https://github.com/Cesarlac" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
+                  <span className="text-sky-400"><GithubIcon size={20} /></span> github.com/Cesarlac
                 </a>
               </div>
             </div>
