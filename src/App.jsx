@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Mail, Phone, ExternalLink } from 'lucide-react';
+import { Mail, Phone, ExternalLink, Menu, X, CheckCircle, AlertCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
-// Ícones SVG para GitHub e LinkedIn (evita erro de versão do lucide-react)
 function GithubIcon({ size = 20 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -23,6 +23,56 @@ function LinkedinIcon({ size = 20 }) {
 
 export default function App() {
   const [lang, setLang] = useState('pt');
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Estados do Formulário de Contato e Validação
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState({ type: '', msg: '' });
+  const [loading, setLoading] = useState(false);
+
+  // Chaves do EmailJS configuradas
+  const EMAILJS_SERVICE_ID = 'service_xg83yao';
+  const EMAILJS_TEMPLATE_ID = 'template_c310uzo';
+  const EMAILJS_PUBLIC_KEY = '_4w9omrYjmZ-E9xQ2';
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus({ type: '', msg: '' });
+
+    // Validações básicas (Lab01S02)
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setStatus({ type: 'error', msg: 'Por favor, preencha todos os campos.' });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setStatus({ type: 'error', msg: 'Por favor, insira um endereço de e-mail válido.' });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          title: 'Contato pelo Portfólio Profissional',
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+      setStatus({ type: 'success', msg: 'Mensagem enviada com sucesso! Entrarei em contato em breve.' });
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error(error);
+      setStatus({ type: 'error', msg: 'Erro ao enviar mensagem. Tente novamente em instantes.' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const aboutText = {
     pt: {
@@ -80,17 +130,38 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       
-      {/* CABEÇALHO E MENU DE NAVEGAÇÃO */}
+      {/* CABEÇALHO E MENU DE NAVEGAÇÃO RESPONSIVO */}
       <header className="sticky top-0 z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800">
         <nav className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
           <span className="text-xl font-bold text-sky-400">Cesar Lacerda</span>
-          <ul className="flex gap-6 text-sm font-medium text-slate-300">
+          
+          {/* Menu Desktop */}
+          <ul className="hidden md:flex gap-6 text-sm font-medium text-slate-300">
             <li><a href="#sobre" className="hover:text-sky-400 transition">Sobre Mim</a></li>
             <li><a href="#projetos" className="hover:text-sky-400 transition">Projetos</a></li>
             <li><a href="#experiencias" className="hover:text-sky-400 transition">Experiências</a></li>
             <li><a href="#contato" className="hover:text-sky-400 transition">Contato</a></li>
           </ul>
+
+          {/* Botão Menu Mobile */}
+          <button 
+            className="md:hidden text-slate-300 hover:text-sky-400"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Abrir Menu"
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </nav>
+
+        {/* Menu Mobile Dropdown */}
+        {menuOpen && (
+          <ul className="md:hidden bg-slate-900 border-b border-slate-800 px-6 py-4 space-y-3 text-sm font-medium text-slate-300">
+            <li><a href="#sobre" onClick={() => setMenuOpen(false)} className="block hover:text-sky-400">Sobre Mim</a></li>
+            <li><a href="#projetos" onClick={() => setMenuOpen(false)} className="block hover:text-sky-400">Projetos</a></li>
+            <li><a href="#experiencias" onClick={() => setMenuOpen(false)} className="block hover:text-sky-400">Experiências</a></li>
+            <li><a href="#contato" onClick={() => setMenuOpen(false)} className="block hover:text-sky-400">Contato</a></li>
+          </ul>
+        )}
       </header>
 
       {/* ÁREA DE CONTEÚDO PRINCIPAL */}
@@ -115,7 +186,7 @@ export default function App() {
               </button>
             </div>
           </div>
-          <div className="bg-slate-900 p-8 rounded-2xl border border-slate-800">
+          <div className="bg-slate-900 p-6 md:p-8 rounded-2xl border border-slate-800">
             <h2 className="text-xl font-semibold text-sky-400 mb-3">{aboutText[lang].role}</h2>
             <p className="text-slate-300 leading-relaxed mb-6">{aboutText[lang].bio}</p>
             <div className="flex flex-wrap gap-2">
@@ -172,15 +243,15 @@ export default function App() {
         {/* 4. SEÇÃO CONTATO */}
         <section id="contato" className="scroll-mt-24">
           <h2 className="text-3xl font-bold text-white mb-8">Contato</h2>
-          <div className="grid md:grid-cols-2 gap-8 bg-slate-900 p-8 rounded-2xl border border-slate-800">
+          <div className="grid md:grid-cols-2 gap-8 bg-slate-900 p-6 md:p-8 rounded-2xl border border-slate-800">
             <div>
               <h3 className="text-lg font-semibold text-white mb-4">Redes e Canais Diretos</h3>
               <p className="text-slate-400 text-sm mb-6">
                 Entre em contato pelas redes abaixo ou envie uma mensagem diretamente pelo formulário.
               </p>
               <div className="space-y-4">
-                <a href="mailto:seuemail@dominio.com" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
-                  <Mail size={20} className="text-sky-400" /> E-mail
+                <a href="mailto:cesarlac.lima@gmail.com" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
+                  <Mail size={20} className="text-sky-400" /> cesarlac.lima@gmail.com
                 </a>
                 <a href="https://wa.me/5531999999999" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-slate-300 hover:text-sky-400 transition">
                   <Phone size={20} className="text-sky-400" /> WhatsApp
@@ -194,21 +265,51 @@ export default function App() {
               </div>
             </div>
 
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4" onSubmit={handleSubmit} noValidate>
               <div>
                 <label className="block text-xs font-medium text-slate-400 mb-1">Nome</label>
-                <input type="text" placeholder="Seu nome" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-sky-400" />
+                <input 
+                  type="text" 
+                  placeholder="Seu nome completo" 
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-sky-400" 
+                />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-400 mb-1">E-mail</label>
-                <input type="email" placeholder="seu@email.com" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-sky-400" />
+                <input 
+                  type="email" 
+                  placeholder="seu@email.com" 
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-sky-400" 
+                />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-400 mb-1">Mensagem</label>
-                <textarea rows="4" placeholder="Sua mensagem..." className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-sky-400"></textarea>
+                <textarea 
+                  rows="4" 
+                  placeholder="Escreva sua mensagem..." 
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-sky-400"
+                ></textarea>
               </div>
-              <button type="submit" className="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold py-2.5 rounded-lg text-sm transition cursor-pointer">
-                Enviar Mensagem
+
+              {status.msg && (
+                <div className={`flex items-center gap-2 text-xs p-3 rounded-lg ${status.type === 'success' ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-800' : 'bg-red-950/60 text-red-300 border border-red-800'}`}>
+                  {status.type === 'success' ? <CheckCircle size={16} /> : <AlertCircle size={16} />}
+                  <span>{status.msg}</span>
+                </div>
+              )}
+
+              <button 
+                type="submit" 
+                disabled={loading}
+                className="w-full bg-sky-500 hover:bg-sky-400 disabled:opacity-50 text-slate-950 font-semibold py-2.5 rounded-lg text-sm transition cursor-pointer"
+              >
+                {loading ? 'Enviando...' : 'Enviar Mensagem'}
               </button>
             </form>
           </div>
